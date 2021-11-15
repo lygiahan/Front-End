@@ -17,6 +17,10 @@ export const editBlogs = (id) => {
   return axiosClient.put(`blogs/${id}`);
 };
 
+export const updateBlogs = (id,data) => {
+  return axiosClient.put(`blogs/${id}`,data);
+};
+
 export const getListBlogPagi = (page, limit) => {
   return axiosClient.get(`blogs?page=${page}&limit=${limit}`);
 };

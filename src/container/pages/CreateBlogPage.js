@@ -1,7 +1,8 @@
-import React, { createRef, useEffect, useState } from "react";
-import { editBlogs, postBlogSer } from "../../services/Blogs";
+import React, { useEffect, useState } from "react";
+import { editBlogs, postBlogSer, updateBlogs } from "../../services/Blogs";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation, useParams } from "react-router";
+import Loader from "../../components/loader/Loader";
 
 export default function CreateBlogPage() {
   const { get: _get_nesting } = require("lodash");
@@ -15,6 +16,7 @@ export default function CreateBlogPage() {
   const [data, setData] = useState(ini_state);
   const location = useLocation();
   const getPath = location.pathname;
+  const [loader, showLoader, hideLoader] = Loader();
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
@@ -26,11 +28,14 @@ export default function CreateBlogPage() {
 
   const editBlog = async (id) => {
     try {
+      showLoader();
       let res = await editBlogs(id);
       setData(res.data);
     } catch (error) {
       console.log(error);
+      hideLoader();
     }
+    hideLoader();
   };
 
   const onChange = (e) => {
@@ -61,8 +66,13 @@ export default function CreateBlogPage() {
     //formData.append("image", data.image);
     formData.append("content", data.content);
     try {
-      let res = await postBlogSer(formData);
-      console.log("res", res);
+      let res = update
+        ? await updateBlogs(data.id, {
+            id: data.id,
+            title: data.title,
+            content: data.content,
+          })
+        : await postBlogSer(formData);
       if (res.data.success === false) {
         toast.error(`⚠ ${res.data.message}`);
       } else {
@@ -83,6 +93,7 @@ export default function CreateBlogPage() {
 
   return (
     <div className="form-blog my-4">
+      {loader}
       <div className="row">
         {/* <div className="col-lg-5 form-blog-img">
           <img alt="img" />

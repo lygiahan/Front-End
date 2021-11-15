@@ -1,32 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getLists,
-  onChangePagePagination,
-} from "../../redux/features/BlogSlice";
-import { getListBlogs } from "../../services/Blogs";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { onChangePagePagination } from "../../redux/features/BlogSlice";
 
-export default function Pagination() {
-  const { lists, _page } = useSelector((state) => state.blogs);
+export default function Pagination({ lists, _page, type, listsPagi }) {
   const dispatch = useDispatch();
 
-  // Get List Blogs
-  useEffect(() => {
-    (async () => {
-      try {
-        let res = await getListBlogs();
-        dispatch(getLists(res.data));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
-
   const listPagination = [];
-  for (let i = 0; i < Math.ceil(lists.length / 10); ++i) {
+  for (let i = 0; i < Math.ceil(type?listsPagi.length/10:lists.length / 10); ++i) {
     listPagination.push(i);
   }
-
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination justify-content-center">

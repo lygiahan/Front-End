@@ -7,6 +7,7 @@ const initialState = {
   _limit:10,
   isModal:false,
   detail:{},
+  isSearch:false,
 }
 
 export const blogSlice = createSlice({
@@ -18,15 +19,18 @@ export const blogSlice = createSlice({
     },
     getListPagi: (state,action) => {
       state.listsPagi = action.payload;
+      state.isSearch=false
     },
     detailBlog: (state, action) => {
       state.detail = action.payload
     },
     searchBlog: (state, action) => {
       state.listsPagi = action.payload
+      state.isSearch=true
     },
     filterBlog: (state, action) => {
       state.listsPagi = action.payload
+       state.isSearch =true
     },
     sortBlog: (state, action) => {
       state.listsPagi = action.payload
