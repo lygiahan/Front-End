@@ -1,7 +1,7 @@
 import React from "react";
 import moment from 'moment'
 import { Link } from "react-router-dom";
- function ListBlogsItem({item}) {
+export default function ListBlogsItem({item}) {
   let { content, image, title, id,createdAt } = item;
      
   return (
@@ -22,5 +22,3 @@ import { Link } from "react-router-dom";
     </Link>
   );
 }
-
-export default React.memo(ListBlogsItem)

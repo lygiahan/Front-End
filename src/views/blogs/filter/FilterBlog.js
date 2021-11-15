@@ -6,16 +6,15 @@ import { filterBlogs } from "../../../services/Blogs";
 export default function FilterBlog() {
   const { lists } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
-  const [data, setData] = useState({ filter: "" });
+  const [dataList, setDataList] = useState({});
 
   const onChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setDataList({ ...dataList, [e.target.name]: e.target.value });
   };
 
   const onFilter = async () => {
     try {
-      let res = await filterBlogs(data.filter);
-      console.log('res',res)
+      let res = await filterBlogs(dataList);
       dispatch(filterBlog(res.data));
     } catch (error) {
       console.log(error);
@@ -23,6 +22,7 @@ export default function FilterBlog() {
   };
   return (
     <div className="d-flex">
+      <input type="text" name="search" onChange={onChange} />
       <select
         className="form-select w-50 mr-3"
         name="filter"

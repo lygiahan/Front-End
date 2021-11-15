@@ -9,16 +9,11 @@ export const getDetailBlogs = (id) => {
 };
 
 export const postBlogSer = (formData) => {
-  return axiosClient.post("blogs",formData);
+  return axiosClient.post("blogs", formData);
 };
 
-
-export const editBlogs = (id) => {
-  return axiosClient.put(`blogs/${id}`);
-};
-
-export const updateBlogs = (id,data) => {
-  return axiosClient.put(`blogs/${id}`,data);
+export const editBlogs = (id, formData) => {
+  return axiosClient.put(`blogs/${id}`, formData);
 };
 
 export const getListBlogPagi = (page, limit) => {
@@ -29,14 +24,16 @@ export const searchBlogs = (search) => {
   return axiosClient.get(`blogs?search=${search}`);
 };
 
-export const filterBlogs = (filter) => {
-  return axiosClient.get(`blogs?filter=${filter}`);
+export const filterBlogs = (data) => {
+  return axiosClient.get(
+    `blogs?${data.filter ? `filter=${data.filter}` : ``}&${
+      data.search ? `search=${data.search}` : ``
+    }`
+  );
 };
 
-export const sortBlogs = (createdAt) => {
-  return axiosClient.get(`blogs?sortBy=${createdAt}&order=desc`);
+export const sortBlogs = (data) => {
+  return axiosClient.get(
+    `blogs?sortBy=createdAt&order=${data}&page=1&limit=10`
+  );
 };
-
-
-
-

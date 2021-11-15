@@ -4,10 +4,8 @@ import { useParams } from "react-router";
 import { detailBlog } from "../../redux/features/BlogSlice";
 import { getDetailBlogs } from "../../services/Blogs";
 import moment from "moment";
-import Loader from "../../components/loader/Loader";
 
 export default function DetailBlogPage() {
-  const [loader, showLoader, hideLoader] = Loader();
   const { detail } = useSelector((state) => state.blogs);
   let { id } = useParams();
   const dispatch = useDispatch();
@@ -15,34 +13,28 @@ export default function DetailBlogPage() {
   useEffect(() => {
     (async () => {
       try {
-        showLoader();
         let res = await getDetailBlogs(id);
         dispatch(detailBlog(res.data));
       } catch (error) {
         console.log(error);
-        hideLoader();
       }
-      hideLoader();
     })();
   }, []);
 
   return (
-    <>
-      {loader}
-      <div className="row p-3">
-        <div className="col-lg-5">
-          <img src={detail?.image} className="w-100" alt={detail?.title} />
-        </div>
-        <div className="col-lg-7">
-          <div className="media-body p-3 w-100">
-            <h5 className="mt-0 mb-1">{detail.title}</h5>
-            <p className="mt-0 mb-1">
-              {moment(detail?.createdAt).format("DD/MM/YYYY")}
-            </p>
-            {detail?.content}
-          </div>
+    <div className="row p-3">
+      <div className="col-lg-5">
+        <img src={detail.image} className="w-100" alt={detail.title} />
+      </div>
+      <div className="col-lg-7">
+        <div className="media-body p-3 w-100">
+          <h5 className="mt-0 mb-1">{detail.title}</h5>
+          <p className="mt-0 mb-1">
+            {moment(detail.createdAt).format("DD/MM/YYYY")}
+          </p>
+          {detail.content}
         </div>
       </div>
-    </>
+    </div>
   );
 }
